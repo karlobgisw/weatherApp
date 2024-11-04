@@ -45,12 +45,14 @@ export default function useWeather(){
     const [weather, setWeather] = useState<Weather>(initialState);
     const [loading, setLoading] = useState(false);
     const [notFound, setNotFound] = useState(false);
+    const [search, setSearch] = useState(true);
     const fetchWeather = async(search:Search)=>{
 
         const ApiKey = import.meta.env.VITE_API_KEY
         setLoading(true);
         setWeather(initialState);
         setNotFound(false);
+        setSearch(false);
         try{
 
             const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${search.city},${search.country}&appid=${ApiKey}`
@@ -58,6 +60,7 @@ export default function useWeather(){
 
             if(!data[0]){
                 setNotFound(true);
+                setSearch(false);
                 return
             }
 
@@ -85,6 +88,7 @@ export default function useWeather(){
         fetchWeather,
         hasWeatherData,
         loading,
-        notFound
+        notFound,
+        search,
     }
 }
